@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/**                             IO_DRIVER V1.0                              **/
+/**                             IO_DRIVER V1.1                              **/
 /** Created: 21/03/2025                            IDE: Mounriver Studio    **/
 /** Autor: Gustavo Pereira da Silva                PORTD Tecnologia         **/
 /*****************************************************************************/
@@ -110,6 +110,8 @@ void PORTD_OUT(uint8_t pin, uint8_t v){
 
 void SystemConfig(){
 
+        //RCC->CTLR |= 1<<24; RCC->CFGR0 |= 0b10; //PLL ENABLE
+    
         SystemCoreClockUpdate();
         Delay_Init();
         Delay_Ms(50);
@@ -118,10 +120,7 @@ void SystemConfig(){
         RCC->APB2PCENR |= (1<<4); /* ATIVA CLOCK DO PORTC - PORTC CLOCK ENABLE */
         RCC->APB2PCENR |= (1<<5); /* ATIVA CLOCK DO PORTD - PORTD CLOCK ENABLE */
         AFIO->PCFR1 &= ~(1<<15);  /* REMAP PA AS GPIO */
-        
-        //RCC->CTLR |= 1<<24; RCC->CFGR0 |= 0b10; //PLL ENABLE
-
-
+    
     }
 
 
