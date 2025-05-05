@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/**                             IO_DRIVER V1.1                              **/
+/**                             IO_DRIVER V1.2                              **/
 /** Created: 21/03/2025                            IDE: Mounriver Studio    **/
 /** Autor: Gustavo Pereira da Silva                PORTD Tecnologia         **/
 /*****************************************************************************/
@@ -26,9 +26,9 @@ void TRISAbits(uint8_t pin, u_int8_t conf){
     u_int8_t p = pin*4; // Offset
 
     if(conf & (1<<0)){ GPIOA->CFGLR |= (1<<p); } else{ GPIOA->CFGLR &= ~(1<<p); }
-    if(conf & (1<<1)){ GPIOA->CFGLR |= (1<<p+1); } else{ GPIOA->CFGLR &= ~(1<<p+1); }
-    if(conf & (1<<2)){ GPIOA->CFGLR |= (1<<p+2); } else{ GPIOA->CFGLR &= ~(1<<p+2); }
-    if(conf & (1<<3)){ GPIOA->CFGLR |= (1<<p+3); } else{ GPIOA->CFGLR &= ~(1<<p+3); }
+    if(conf & (1<<1)){ GPIOA->CFGLR |= (1<<(p+1)); } else{ GPIOA->CFGLR &= ~(1<<(p+1)); }
+    if(conf & (1<<2)){ GPIOA->CFGLR |= (1<<(p+2)); } else{ GPIOA->CFGLR &= ~(1<<(p+2)); }
+    if(conf & (1<<3)){ GPIOA->CFGLR |= (1<<(p+3)); } else{ GPIOA->CFGLR &= ~(1<<(p+3)); }
 
     if(conf==0b11000 || conf==0b01000){ 
         if(conf&(1<<4)){ GPIOA->OUTDR |= (1<<pin); } else{ { GPIOA->OUTDR &= ~(1<<pin); } }
@@ -41,9 +41,9 @@ void TRISCbits(uint8_t pin, u_int8_t conf){
     u_int8_t p = pin*4; // Offset
 
     if(conf & (1<<0)){ GPIOC->CFGLR |= (1<<p); } else{ GPIOC->CFGLR &= ~(1<<p); }
-    if(conf & (1<<1)){ GPIOC->CFGLR |= (1<<p+1); } else{ GPIOC->CFGLR &= ~(1<<p+1); }
-    if(conf & (1<<2)){ GPIOC->CFGLR |= (1<<p+2); } else{ GPIOC->CFGLR &= ~(1<<p+2); }
-    if(conf & (1<<3)){ GPIOC->CFGLR |= (1<<p+3); } else{ GPIOC->CFGLR &= ~(1<<p+3); }
+    if(conf & (1<<1)){ GPIOC->CFGLR |= (1<<(p+1)); } else{ GPIOC->CFGLR &= ~(1<<(p+1)); }
+    if(conf & (1<<2)){ GPIOC->CFGLR |= (1<<(p+2)); } else{ GPIOC->CFGLR &= ~(1<<(p+2)); }
+    if(conf & (1<<3)){ GPIOC->CFGLR |= (1<<(p+3)); } else{ GPIOC->CFGLR &= ~(1<<(p+3)); }
 
     if(conf==0b11000 || conf==0b01000){ 
         if(conf&(1<<4)){ GPIOC->OUTDR |= (1<<pin); } else{ { GPIOC->OUTDR &= ~(1<<pin); } }
@@ -56,9 +56,9 @@ void TRISDbits(uint8_t pin, u_int8_t conf){
     u_int8_t p = pin*4; // Offset
 
     if(conf & (1<<0)){ GPIOD->CFGLR |= (1<<p); } else{ GPIOD->CFGLR &= ~(1<<p); }
-    if(conf & (1<<1)){ GPIOD->CFGLR |= (1<<p+1); } else{ GPIOD->CFGLR &= ~(1<<p+1); }
-    if(conf & (1<<2)){ GPIOD->CFGLR |= (1<<p+2); } else{ GPIOD->CFGLR &= ~(1<<p+2); }
-    if(conf & (1<<3)){ GPIOD->CFGLR |= (1<<p+3); } else{ GPIOD->CFGLR &= ~(1<<p+3); }
+    if(conf & (1<<1)){ GPIOD->CFGLR |= (1<<(p+1)); } else{ GPIOD->CFGLR &= ~(1<<(p+1)); }
+    if(conf & (1<<2)){ GPIOD->CFGLR |= (1<<(p+2)); } else{ GPIOD->CFGLR &= ~(1<<(p+2)); }
+    if(conf & (1<<3)){ GPIOD->CFGLR |= (1<<(p+3)); } else{ GPIOD->CFGLR &= ~(1<<(p+3)); }
 
     if(conf==0b11000 || conf==0b01000){ 
         if(conf&(1<<4)){ GPIOD->OUTDR |= (1<<pin); } else{ { GPIOD->OUTDR &= ~(1<<pin); } }
@@ -69,19 +69,19 @@ void TRISDbits(uint8_t pin, u_int8_t conf){
 
 void PORTA_OUT(uint8_t pin, uint8_t v){
     uint32_t VPORT=0;
-    if(v){ VPORT |=(1<<pin); } else{ VPORT |=(1<<16+pin); }
+    if(v){ VPORT |=(1<<pin); } else{ VPORT |=(1<<(16+pin)); }
     GPIOA->BSHR = VPORT;
 }
 
 void PORTC_OUT(uint8_t pin, uint8_t v){
     uint32_t VPORT=0;
-    if(v){ VPORT |=(1<<pin); } else{ VPORT |=(1<<16+pin); }
+    if(v){ VPORT |=(1<<pin); } else{ VPORT |=(1<<(16+pin)); }
     GPIOC->BSHR = VPORT;
 }
 
 void PORTD_OUT(uint8_t pin, uint8_t v){
     uint32_t VPORT=0;
-    if(v){ VPORT |=(1<<pin); } else{ VPORT |=(1<<16+pin); }
+    if(v){ VPORT |=(1<<pin); } else{ VPORT |=(1<<(16+pin)); }
     GPIOD->BSHR = VPORT;
 }
 
@@ -110,7 +110,7 @@ void PORTD_OUT(uint8_t pin, uint8_t v){
 
 void SystemConfig(){
 
-        //RCC->CTLR |= 1<<24; RCC->CFGR0 |= 0b10; //PLL ENABLE
+        //RCC->CTLR |= 1<<24; RCC->CFGR0 |= (1<<1); //PLL ENABLE
     
         SystemCoreClockUpdate();
         Delay_Init();
