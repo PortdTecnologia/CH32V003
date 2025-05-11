@@ -1,8 +1,10 @@
 /*****************************************************************************/
-/**                          SOFTWARE SERIAL V1.0                           **/
+/**                          SOFTWARE SERIAL V1.1                           **/
 /** Created: 29/04/2025                            IDE: Mounriver Studio    **/
 /** Autor: Gustavo Pereira da Silva                PORTD Tecnologia         **/
 /*****************************************************************************/
+
+#include <stdarg.h>
 
 #define UART1_TX_SET      PORTD_OUT(5,1)
 #define UART1_TX_RESET    PORTD_OUT(5,0)
@@ -52,14 +54,59 @@ void UART1_Byte(uint8_t b){
     if(b &(1<<7)){ UART1_TX_SET; } else{ UART1_TX_RESET; }
     UART1_TEMP;
 
-    UART1_TX_SET; UART1_TEMP;
+    UART1_TX_SET;
+    UART1_TEMP;
 }
 
-void UART1_Print(uint8_t str[]){
+void UART1_Print(char str[]){
     uint16_t i=0;
     while(str[i] != '\0'){ UART1_Byte(str[i]); i++; }
 }
 
+
+void UART1_Printf(char str1[], ...){
+
+    va_list args;
+    va_start(args,str1);
+
+    uint16_t i=0;
+    while(str1[i] != '\0'){
+
+        if(str1[i]=='%'){
+            switch(str1[(i+1)]){
+
+                case 'd':{
+                    char str2[20];
+                    sprintf(str2,"%d",va_arg(args,int));
+                    UART1_Print(str2);
+                    i++; i++;
+                    break;
+                }
+                case 'x':{
+                    char str2[20];
+                    sprintf(str2,"%x",va_arg(args,int));
+                    UART1_Print(str2);
+                    i++; i++;
+                    break;
+                }
+                case 's':{
+
+                    UART1_Print(va_arg(args,char*));
+                    i++; i++;
+                    break;
+                }
+                default :{
+
+                    UART1_Byte(str1[i]);
+                    i++;
+                    break;
+                }
+            }
+        }
+        else{ UART1_Byte(str1[i]); i++; }
+
+     }
+}
 
 /****************************************************************/
 /**         PARA MAIS INFORMACOES - MORE INFORMATIONS          **/
