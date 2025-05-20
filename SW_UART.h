@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/**                          SOFTWARE SERIAL V1.1                           **/
+/**                          SOFTWARE SERIAL V1.2                           **/
 /** Created: 29/04/2025                            IDE: Mounriver Studio    **/
 /** Autor: Gustavo Pereira da Silva                PORTD Tecnologia         **/
 /*****************************************************************************/
@@ -106,6 +106,34 @@ void UART1_Printf(char str1[], ...){
         else{ UART1_Byte(str1[i]); i++; }
 
      }
+}
+
+
+
+uint16_t bdi=7;
+uint8_t UART1_RxBuf=0;
+
+void UART1_RX(){
+
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<0); }
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<1); }
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<2); }
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<3); }
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<4); }
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<5); }
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<6); }
+    Delay_Us(bdi);
+    if(PD6){ UART1_RxBuf |= (1<<7); }
+    Delay_Us(bdi);
+    Delay_Us(bdi);
+
 }
 
 /****************************************************************/
