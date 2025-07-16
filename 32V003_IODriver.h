@@ -10,6 +10,7 @@
 #define Out2OD   0b00110
 #define Out10OD  0b00101
 #define Out30OD  0b00111
+#define Out30AF_PP  0b01011
 
 #define InAn     0b00000
 #define InFloat  0b00100
@@ -19,6 +20,16 @@
 #define PORTA GPIOA->OUTDR
 #define PORTC GPIOC->OUTDR
 #define PORTD GPIOD->OUTDR
+
+//#define PFIC_IEN1 (*(__IO uint16_t *)0xE000E100)
+#define PFIC_IEN1 (*(uint32_t*)0xE000E100)
+
+#define PFIC_IECR1 (*(uint32_t*)0xE000E180)
+#define PFIC_IECR2 (*(uint32_t*)0xE000E184)
+
+#define PFIC_IPCR1 (*(uint32_t*)0xE000E280)
+#define PFIC_IPCR2 (*(uint32_t*)0xE000E284)
+
 
 
 void TRISAbits(uint8_t pin, u_int8_t conf){
@@ -86,8 +97,8 @@ void PORTD_OUT(uint8_t pin, uint8_t v){
 }
 
     /* LEITURA - READ */
-#define PA0 ( GPIOA->INDR &(1<<0) )
 #define PA1 ( GPIOA->INDR &(1<<1) )
+#define PA2 ( GPIOA->INDR &(1<<2) )
 
 #define PC0 ( GPIOC->INDR &(1<<0) )
 #define PC1 ( GPIOC->INDR &(1<<1) )
@@ -110,7 +121,7 @@ void PORTD_OUT(uint8_t pin, uint8_t v){
 
 void SystemConfig(){
 
-        //RCC->CTLR |= 1<<24; RCC->CFGR0 |= (1<<1); //PLL ENABLE
+        RCC->CTLR |= 1<<24; RCC->CFGR0 |= (1<<1); //PLL ENABLE
     
         SystemCoreClockUpdate();
         Delay_Init();
@@ -120,6 +131,9 @@ void SystemConfig(){
         RCC->APB2PCENR |= (1<<4); /* ATIVA CLOCK DO PORTC - PORTC CLOCK ENABLE */
         RCC->APB2PCENR |= (1<<5); /* ATIVA CLOCK DO PORTD - PORTD CLOCK ENABLE */
         AFIO->PCFR1 &= ~(1<<15);  /* REMAP PA AS GPIO */
+        RCC->APB2PCENR |=(1<<11);  /* TIMER 1 CLOCK ENABLE */
+        //RCC->APB1PCENR |=(1<<0);  /* TIMER 2 CLOCK ENABLE */
+        RCC->APB2PCENR |=(1<<0); // AFIO
     
     }
 
